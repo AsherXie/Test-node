@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .ball{
+            position: fixed;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+<script>
+    const body = document.querySelector('body')
+    class Ball {
+        constructor(x,y) {
+            this.x = x;
+            this.y = y;
+            this.width = this.height = parseInt(Math.random()*100);
+            this.color = `rgb(${parseInt(Math.random()*255)},${Math.random()*255},${Math.random()*255})`
+            this.directionX = Math.random()>0.5?1:-1
+            this.directionY = Math.random()>0.5?1:-1
+
+            this.content = document.createElement('div')
+            this.content.setAttribute('class', 'ball')
+
+            this.timer = null
+        }
+        remove(){
+            body.removeChild(this.content)
+        }
+        move(){
+
+            if(this.width === 0){
+                clearInterval(this.timer)
+                this.remove()
+                return
+            }
+
+            this.x += this.directionX
+            this.y += this.directionY
+            this.width-=1
+            this.height-=1
+
+
+
+            this.content.style.left = `${this.x}px`
+            this.content.style.top = `${this.y}px`
+            this.content.style.width = `${this.width}px`
+            this.content.style.height = `${this.height}px`
+        }
+        add(){
+            this.content.style.left = `${this.x}px`
+            this.content.style.top = `${this.y}px`
+            this.content.style.width = `${this.width}px`
+            this.content.style.height = `${this.height}px`
+            this.content.style.backgroundColor = `${this.color}`
+            body.appendChild(this.content)
+        }
+    }
+
+    window.addEventListener('mousemove',({x,y})=>{
+        const ball = new Ball(x,y)
+        ball.add()
+        ball.timer = setInterval(()=>{
+            ball.move()
+        },10)
+    })
+</script>
+</html>
